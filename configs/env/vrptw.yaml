@@ -1,0 +1,19 @@
+_target_: ai4co_gnn.env.mtvrp.MTVRPEnv
+name: vrptw
+
+check_solution: False
+
+generator_params:
+  num_loc: 20
+  variant_preset: "vrptw"
+
+
+val_file: [ "vrptw/val_${env.generator_params.num_loc}.npz"
+]
+val_dataloader_names: [ vrptw ]
+test_file: [ "all/test_${env.generator_params.num_loc}.npz",
+             "vrptw/test_${env.generator_params.num_loc}.npz"
+]
+test_dataloader_names: [ all,
+                         vrptw
+                        ]

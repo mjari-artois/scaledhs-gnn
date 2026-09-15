@@ -1,0 +1,2 @@
+# PDPTW-50 adapter-transfer inference.
+experiment=main/pdptw/adapter_transfer_50 env=pdptw model.transfer_from=null logger=wandb logger.wandb.project=ai4co-pdptw logger.wandb.name=inference-pdptw-50-adapter-transfer-formula-is_p/d-50000 callbacks.model_checkpoint.dirpath=logs/train/runs/50-pdptw/pdptw-50-adapter-transfer-formula-is_p/d-50000/checkpoints model.test_batch_size=8 trainer.precision=bf16-mixed ++model.num_augment=64 env.test_file=[pdptw/test_50.npz] env.test_dataloader_names=[pdptw_50] ++model.transfer_from=null ++model.freeze_backbone=false

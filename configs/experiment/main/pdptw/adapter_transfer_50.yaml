@@ -1,0 +1,6 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/pdptw/adapter_transfer.yaml
+  - /experiment/size/50.yaml
+  - _self_

@@ -1,0 +1,16 @@
+_target_: ai4co_gnn.env.mtvrp.MTVRPEnv
+name: cada
+
+check_solution: false
+load_solutions: false
+checkpoint_path: logs/train/runs/50-mtvrp/unimp-50-main/checkpoints/epoch_299.ckpt
+
+generator_params:
+  num_loc: 50
+  variant_preset: all
+
+# The wildcard is expanded by test.py, so every CADA variant is evaluated.
+test_file: ["CADA/synthetic_data/50_*_uniform_hgs.npz"]
+test_dataloader_names: [cada]
+val_file: []
+val_dataloader_names: []

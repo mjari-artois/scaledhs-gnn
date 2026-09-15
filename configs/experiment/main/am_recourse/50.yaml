@@ -1,0 +1,6 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/am_recourse/base.yaml
+  - /experiment/size/50.yaml
+  - _self_

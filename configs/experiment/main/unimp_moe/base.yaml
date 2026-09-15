@@ -1,0 +1,20 @@
+# @package _global_
+
+
+######################################################################
+# NOTE: do not use this directly, as it is the base config
+######################################################################
+
+# Override defaults: take configs from relative path
+defaults:
+  - /experiment/shared/base_train_wandb.yaml
+  - override /model: gnn_unimp_moe.yaml
+  - _self_
+
+
+# Logging: we use Wandb in this case
+logger:
+  wandb:
+    tags: ["unimp_moe", "${env.name}"]
+    group: "${env.generator_params.num_loc}-${env.name}"
+    name: "unimp_moe-${env.generator_params.num_loc}-main"

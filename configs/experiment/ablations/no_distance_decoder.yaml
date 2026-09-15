@@ -1,0 +1,18 @@
+# @package _global_
+
+# Override defaults by taking another config
+defaults:
+  - ablations/base.yaml
+  - _self_
+
+
+model:
+  policy:
+    decoder:
+      _target_: rl4co.models.zoo.am.decoder.AttentionModelDecoder
+
+logger:
+  wandb:
+    tags: ["unimp", "${env.name}", "ablations"]
+    group: "${env.generator_params.num_loc}-${env.name}"
+    name: "unimp-${env.generator_params.num_loc}-no-distance-decoder"

@@ -1,0 +1,36 @@
+_target_: ai4co_gnn.models.zoo.POMO
+
+normalization: 'gauss'
+
+policy:
+  _target_: rl4co.models.zoo.am.policy.AttentionModelPolicy
+  embed_dim: 128
+  encoder:
+    _target_: ai4co_gnn.models.encoder.GNNEncoder
+    block: ai4co_gnn.models.encoder.UniMPEncoderBlock
+    block_kwargs:
+      num_heads: 8
+    moe_kwargs:
+      num_experts: 6
+    env_name: ${env.name}
+    embed_dim: ${model.policy.embed_dim}
+    num_layers: 3
+    normalization: 'batch'
+    prenorm: true
+    dropout: 0.1
+    sparsify: true
+    k_sparse: 10
+    init_embedding:
+      _target_: ai4co_gnn.models.init.MTVRPPolarInitEmbedding
+      embed_dim: ${model.policy.embed_dim}
+  decoder:
+    _target_: ai4co_gnn.models.decoder.AttentionAndDistanceModelDecoder
+    moe_kwargs:
+      num_experts: 6
+      light_version: true
+    use_graph_context: true
+    context_embedding:
+      _target_: ai4co_gnn.models.context.MTVRPContext
+      embed_dim: ${model.policy.embed_dim}
+    dynamic_embedding:
+      _target_: rl4co.models.nn.env_embeddings.dynamic.StaticEmbedding

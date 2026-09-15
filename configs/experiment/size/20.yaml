@@ -1,0 +1,5 @@
+# @package _global_
+
+env:
+  generator_params:
+    num_loc: 20

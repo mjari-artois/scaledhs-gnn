@@ -1,0 +1,6 @@
+experiment=knn/full model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64
+
+experiment=knn/sparse model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64 model.policy.encoder.k_sparse=5
+experiment=knn/sparse model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64 model.policy.encoder.k_sparse=10
+experiment=knn/sparse model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64 model.policy.encoder.k_sparse=20
+experiment=knn/sparse model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64 model.policy.encoder.k_sparse=30

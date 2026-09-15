@@ -1,0 +1,53 @@
+_target_: ai4co_gnn.env.mtvrp.MTVRPEnv
+name: mtvrp
+
+check_solution: False
+
+generator_params:
+  num_loc: 20
+  variant_preset: "all"
+
+
+val_file: [ "all/val_${env.generator_params.num_loc}.npz"
+]
+val_dataloader_names: [ all ]
+test_file: [ "all/test_${env.generator_params.num_loc}.npz",
+             "single_feat/test_${env.generator_params.num_loc}.npz",
+             "single_feat_otw/test_${env.generator_params.num_loc}.npz",
+             "cvrp/test_${env.generator_params.num_loc}.npz",
+             "ovrp/test_${env.generator_params.num_loc}.npz",
+             "ovrpb/test_${env.generator_params.num_loc}.npz",
+             "ovrpbl/test_${env.generator_params.num_loc}.npz",
+             "ovrpbltw/test_${env.generator_params.num_loc}.npz",
+             "ovrpbtw/test_${env.generator_params.num_loc}.npz",
+             "ovrpl/test_${env.generator_params.num_loc}.npz",
+             "ovrpltw/test_${env.generator_params.num_loc}.npz",
+             "vrptw/test_${env.generator_params.num_loc}.npz",
+             "ovrptw/test_${env.generator_params.num_loc}.npz",
+             "vrpb/test_${env.generator_params.num_loc}.npz",
+             "vrpbl/test_${env.generator_params.num_loc}.npz",
+             "vrpbltw/test_${env.generator_params.num_loc}.npz",
+             "vrpbtw/test_${env.generator_params.num_loc}.npz",
+             "vrpl/test_${env.generator_params.num_loc}.npz",
+             "vrpltw/test_${env.generator_params.num_loc}.npz"
+]
+test_dataloader_names: [ all,
+                         single_feat,
+                         single_feat_otw,
+                         cvrp,
+                         ovrp,
+                         ovrpb,
+                         ovrpbl,
+                         ovrpbltw,
+                         ovrpbtw,
+                         ovrpl,
+                         ovrpltw,
+                         vrptw,
+                         ovrptw,
+                         vrpb,
+                         vrpbl,
+                         vrpbltw,
+                         vrpbtw,
+                         vrpl,
+                         vrpltw,
+                        ]

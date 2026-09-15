@@ -1,0 +1,6 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/pdptw/from_scratch.yaml
+  - /experiment/size/100_k30.yaml
+  - _self_

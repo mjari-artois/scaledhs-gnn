@@ -1,0 +1,12 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/unimp_moe/base.yaml
+  - /experiment/feature/recourse.yaml
+  - _self_
+
+logger:
+  wandb:
+    tags: ["unimp_moe", "${env.name}", "recourse"]
+    group: "${env.generator_params.num_loc}-${env.name}"
+    name: "unimp_moe-${env.generator_params.num_loc}-recourse"

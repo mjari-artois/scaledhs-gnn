@@ -1,0 +1,20 @@
+_target_: ai4co_gnn.env.pdptw.PDPTWEnv
+name: pdptw
+
+check_solution: false
+
+generator_params:
+  num_loc: 20
+  capacity: null
+  scale_demand: true
+  max_time: 8.0
+  min_service_time: 0.10
+  max_service_time: 0.20
+  min_tw_width: 0.15
+  max_tw_width: 0.50
+  speed: 1.0
+
+val_file: [ "pdptw/val_${env.generator_params.num_loc}.npz" ]
+val_dataloader_names: [ pdptw ]
+test_file: [ "pdptw/test_20.npz", "pdptw/test_50.npz" ]
+test_dataloader_names: [ pdptw_20, pdptw_50 ]

@@ -1,0 +1,6 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/pdptw/transfer.yaml
+  - /experiment/size/20.yaml
+  - _self_

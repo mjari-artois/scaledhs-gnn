@@ -1,0 +1,13 @@
+# Combined PDPTW campaign: from-scratch + transfer at sizes 20, 50, 100.
+# Transfer rows: REPLACE the PATH_TO_MTVRP_*_CKPT placeholders with the actual
+# MTVRP recourse checkpoint paths (bash does not expand $VAR or ${oc.env:VAR}
+# inside oarsub array params — hardcode the paths).
+
+experiment=main/pdptw/from_scratch_20 model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64
+experiment=main/pdptw/transfer_20 model.transfer_from=logs/train/runs/20-mtvrp/unimp-20-recourse/checkpoints/last.ckpt model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64
+
+experiment=main/pdptw/from_scratch_50 model.batch_size=256 +trainer.accumulate_grad_batches=1 trainer.precision="bf16-mixed" +model.num_augment=64
+experiment=main/pdptw/transfer_50 model.transfer_from=logs/train/runs/50-mtvrp/unimp-50-recourse/checkpoints/last.ckpt model.batch_size=256 +trainer.accumulate_grad_batches=1 trainer.precision="bf16-mixed" +model.num_augment=64
+
+experiment=main/pdptw/from_scratch_100 model.batch_size=128 +trainer.accumulate_grad_batches=4 trainer.precision="bf16-mixed" +model.num_augment=64
+experiment=main/pdptw/transfer_100 model.transfer_from=logs/train/runs/100-mtvrp/unimp-100-recourse/checkpoints/last.ckpt model.batch_size=128 +trainer.accumulate_grad_batches=4 trainer.precision="bf16-mixed" +model.num_augment=64

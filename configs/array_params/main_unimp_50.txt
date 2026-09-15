@@ -1,0 +1,2 @@
+experiment=main/unimp/50 model.batch_size=64 +trainer.accumulate_grad_batches=4
+experiment=main/unimp_moe/50 model.batch_size=64 +trainer.accumulate_grad_batches=4

@@ -1,0 +1,10 @@
+# @package _global_
+
+env:
+  generator_params:
+    num_loc: 50
+
+model:
+  policy:
+    encoder:
+      k_sparse: 20

@@ -1,0 +1,7 @@
+# PDPTW full fine-tuning from MTVRP recourse checkpoints for sizes 20 and 50.
+#
+# Submit with:
+#   oarsub --array-param-file configs/array_params/pdptw_full_finetune_100k_20_50.txt train.oar
+
+experiment=main/pdptw/transfer_20 model.train_data_size=100_000 model.transfer_from=logs/train/runs/20-mtvrp/unimp-20-recourse/checkpoints/last.ckpt model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision=bf16-mixed +model.num_augment=64
+experiment=main/pdptw/transfer_50 model.train_data_size=100_000 model.transfer_from=logs/train/runs/50-mtvrp/unimp-50-recourse/checkpoints/last.ckpt model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision=bf16-mixed +model.num_augment=64

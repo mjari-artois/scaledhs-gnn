@@ -1,0 +1,38 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/pdptw/base.yaml
+  - /experiment/feature/recourse.yaml
+  - _self_
+
+model:
+  metrics:
+    train:
+      - "loss"
+      - "reward"
+      - "recourse_cost"
+      - "recourse_count"
+      - "recourse_rate"
+    val:
+      - "reward"
+      - "recourse_cost"
+      - "recourse_count"
+      - "recourse_rate"
+      - "capacity_violation_count"
+      - "time_window_violation_count"
+      - "precedence_violation_count"
+      - "open_pickup_violation_count"
+      - "capacity_violation_rate"
+      - "time_window_violation_rate"
+      - "precedence_violation_rate"
+      - "open_pickup_violation_rate"
+      - "max_reward"
+      - "max_aug_reward"
+      - "norm_reward"
+      - "gap_to_bks"
+    test: ${.val}
+
+logger:
+  wandb:
+    tags: ["unimp", "pdptw", "scratch", "recourse"]
+    name: "pdptw-${env.generator_params.num_loc}-scratch"

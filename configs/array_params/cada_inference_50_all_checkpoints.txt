@@ -1,0 +1,4 @@
+# CADA size-50 inference for every available trained checkpoint family.
+
+experiment=main/unimp_moe/50 env=cada train=false test=true logger=wandb logger.wandb.project=cada-inference-50 logger.wandb.name=cada-50-unimp-moe-e2e ckpt_path=logs/train/runs/50-mtvrp/unimp_moe-50-e2e-4experts/checkpoints/epoch_298.ckpt model.test_batch_size=8 model.policy.encoder.moe_kwargs.num_experts=4 model.policy.decoder.moe_kwargs.num_experts=4 +model.num_augment=32
+experiment=main/unimp_moe/50 env=cada train=false test=true logger=wandb logger.wandb.project=cada-inference-50 logger.wandb.name=cada-50-unimp-moe-e2e-64aug ckpt_path=logs/train/runs/50-mtvrp/unimp_moe-50-e2e-4experts/checkpoints/epoch_298.ckpt model.test_batch_size=8 model.policy.encoder.moe_kwargs.num_experts=4 model.policy.decoder.moe_kwargs.num_experts=4 +model.num_augment=64

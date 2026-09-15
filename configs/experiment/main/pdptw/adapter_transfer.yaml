@@ -1,0 +1,30 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/pdptw/transfer.yaml
+  - _self_
+
+model:
+  freeze_backbone: true
+  train_data_size: 50_000
+  optimizer_kwargs:
+    lr: 1e-4
+    weight_decay: 1e-6
+  policy:
+    encoder:
+      pair_adapter:
+        _target_: ai4co_gnn.models.adapters.PDPairAdapter
+        embed_dim: ${model.policy.embed_dim}
+        adapter_dim: 32
+        scale: 1.0
+    decoder:
+      logit_adapter:
+        _target_: ai4co_gnn.models.adapters.PDPTWLogitAdapter
+        embed_dim: ${model.policy.embed_dim}
+        adapter_dim: 64
+        scale: 1.0
+
+logger:
+  wandb:
+    tags: ["unimp", "pdptw", "adapter-transfer", "recourse"]
+    name: "pdptw-${env.generator_params.num_loc}-adapter-transfer-formula-is_p/d-${model.train_data_size}"

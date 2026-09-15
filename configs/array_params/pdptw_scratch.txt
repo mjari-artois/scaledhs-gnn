@@ -1,0 +1,5 @@
+#experiment=main/pdptw/from_scratch_20 model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64
+
+experiment=main/pdptw/from_scratch_50 model.batch_size=256 +trainer.accumulate_grad_batches=1 trainer.precision="bf16-mixed" +model.num_augment=64
+
+experiment=main/pdptw/from_scratch_100 model.batch_size=128 +trainer.accumulate_grad_batches=4 trainer.precision="bf16-mixed" +model.num_augment=64

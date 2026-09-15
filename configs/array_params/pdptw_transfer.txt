@@ -1,0 +1,15 @@
+# PDPTW transfer-init from MTVRP recourse checkpoints.
+#
+# REPLACE the three placeholder paths below with the actual MTVRP recourse
+# checkpoints for each problem size. Bash does not expand variables inside
+# positional parameters, so ``$VAR`` and ``${oc.env:VAR}`` BOTH fail when
+# this file is fed to ``oarsub --array-param-file``. Hardcode the paths.
+#
+# Example replacement:
+#   model.transfer_from=/path/to/logs/train/runs/20-mtvrp/unimp-20-recourse/checkpoints/last.ckpt
+
+experiment=main/pdptw/transfer_20 model.transfer_from=logs/train/runs/20-mtvrp/unimp-20-recourse/checkpoints/last.ckpt model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64
+
+experiment=main/pdptw/transfer_50 model.transfer_from=logs/train/runs/50-mtvrp/unimp-50-recourse/checkpoints/last.ckpt model.batch_size=256 +trainer.accumulate_grad_batches=1 trainer.precision="bf16-mixed" +model.num_augment=64
+
+experiment=main/pdptw/transfer_100 model.transfer_from=logs/train/runs/100-mtvrp/unimp-100-recourse/checkpoints/last.ckpt model.batch_size=128 +trainer.accumulate_grad_batches=4 trainer.precision="bf16-mixed" +model.num_augment=64

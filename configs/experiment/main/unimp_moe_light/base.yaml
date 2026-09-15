@@ -1,0 +1,38 @@
+# @package _global_
+
+
+######################################################################
+# NOTE: do not use this directly, as it is the base config
+######################################################################
+
+# Override defaults: take configs from relative path
+defaults:
+  - /experiment/shared/base_train_wandb.yaml
+  - override /model: gnn_unimp_moe.yaml
+  - _self_
+
+
+model:
+  policy:
+    encoder:
+      init_embedding:
+        _target_: ai4co_gnn.models.init.MTVRPInitEmbedding
+        embed_dim: ${model.policy.embed_dim}
+    decoder:
+      _target_: rl4co.models.zoo.am.decoder.AttentionModelDecoder
+      moe_kwargs:
+        num_experts: 6
+        light_version: true
+      use_graph_context: true
+      context_embedding:
+        _target_: ai4co_gnn.models.context.MTVRPContext
+        embed_dim: ${model.policy.embed_dim}
+      dynamic_embedding:
+        _target_: rl4co.models.nn.env_embeddings.dynamic.StaticEmbedding
+
+# Logging: we use Wandb in this case
+logger:
+  wandb:
+    tags: ["unimp_moe_light", "${env.name}"]
+    group: "${env.generator_params.num_loc}-${env.name}"
+    name: "unimp_moe_light-${env.generator_params.num_loc}-main"

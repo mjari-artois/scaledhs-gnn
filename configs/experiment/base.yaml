@@ -1,0 +1,6 @@
+# @package _global_
+
+######################################################################
+# Default experiment overlay used by `configs/main.yaml`.
+# This file intentionally keeps the base settings from `main.yaml`.
+######################################################################

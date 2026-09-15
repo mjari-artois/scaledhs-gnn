@@ -1,0 +1,13 @@
+# @package _global_
+
+env:
+  use_recourse_for_infeasible: true
+
+model:
+  metrics:
+    train: ["loss", "reward", "recourse_cost", "recourse_count", "recourse_rate"]
+    val: ["reward", "recourse_cost", "recourse_count", "recourse_rate", "max_reward", "max_aug_reward", "norm_reward", "gap_to_bks"]
+    test: ${.val}
+  policy:
+    decoder:
+      _target_: ai4co_gnn.models.decoder.AttentionAndDistanceModelDecoder

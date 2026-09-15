@@ -1,0 +1,20 @@
+_target_: rl4co.utils.trainer.RL4COTrainer
+
+default_root_dir: ${paths.output_dir}
+
+gradient_clip_val: 1.0
+accelerator: "auto"
+#precision: "16-mixed"
+precision: "32"
+
+# perform a validation loop every N training epochs
+check_val_every_n_epoch: 1
+
+# set True to to ensure deterministic results
+# makes training slower but gives more reproducibility than just setting seeds
+deterministic: False
+
+strategy:
+  _target_: lightning.pytorch.strategies.ddp.DDPStrategy
+  find_unused_parameters: False
+  gradient_as_bucket_view: True

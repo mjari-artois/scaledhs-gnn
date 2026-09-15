@@ -1,0 +1,3 @@
+# Run the following as one line from the repository root:
+# python test.py env=cada experiment=main/unimp/50 train=false test=true logger=none callbacks.model_checkpoint.dirpath=logs/train/runs/50-mtvrp/unimp-50-main/checkpoints model.test_batch_size=128 +model.num_augment=1
+env=cada experiment=main/unimp/50 train=false test=true +model.num_augment=1

@@ -1,0 +1,26 @@
+# @package _global_
+
+
+######################################################################
+# NOTE: do not use this directly, as it is the base config
+######################################################################
+
+# Override defaults: take configs from relative path
+defaults:
+  - /experiment/shared/base_train_wandb.yaml
+  - override /model: gnn_unimp.yaml
+  - _self_
+
+
+env:
+  generator_params:
+    num_loc: 50
+    variant_preset: "all"
+
+
+# Logging: we use Wandb in this case
+logger:
+  wandb:
+    tags: ["ablations", "unimp", "${env.name}"]
+    group: "${env.generator_params.num_loc}-${env.name}"
+    name: "ablations-unimp-${env.generator_params.num_loc}-main"

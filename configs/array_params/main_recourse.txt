@@ -1,0 +1,1 @@
+experiment=main/recourse model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64

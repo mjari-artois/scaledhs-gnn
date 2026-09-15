@@ -1,0 +1,12 @@
+# @package _global_
+
+######################################################################
+# Shared defaults for experiment configs that train with W&B logging.
+######################################################################
+
+defaults:
+  - override /callbacks: default.yaml
+  - override /trainer: default.yaml
+  - override /logger: wandb.yaml
+
+seed: 1234

@@ -1,0 +1,84 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - callbacks: default.yaml
+  - hydra: default.yaml
+  - logger: null
+  - trainer: default.yaml
+  - paths: default.yaml
+  - extras: default.yaml
+  - model: gnn_unimp.yaml
+  - env: mtvrp.yaml
+
+  - experiment: base.yaml # set baseline experiment
+
+  - hparams_search: null
+
+  - optional local: default.yaml
+
+  - debug: null
+
+# task name, determines output directory path
+mode: "train"
+
+# tags to help you identify your experiments
+# you can overwrite this in experiment configs
+# overwrite from command line with `python train.py tags="[first_tag, second_tag]"`
+tags: ["dev"]
+
+# set False to skip model training
+train: True
+
+# evaluate on test set, using best model weights achieved during training
+# lightning chooses best weights based on the metric specified in checkpoint callback
+test: True
+
+# compile model for faster training with pytorch 2.0
+compile: False
+
+# simply provide checkpoint path to resume training
+ckpt_path: null
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: null
+
+#https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+matmul_precision: "medium"
+
+
+trainer:
+  max_epochs: 300
+
+# Easier default under logs/ directory
+callbacks:
+  model_checkpoint:
+    dirpath: logs/${logger.wandb.name}/checkpoints
+    monitor: "val/reward"
+
+# Set to True to generate data automatically on the first run
+model:
+  generate_default_data: False
+  # metrics to be logged
+  metrics:
+    train: ["loss", "reward", "norm_reward", "norm_vals"]
+    val: ["reward", "max_reward", "max_aug_reward", "norm_reward", "gap_to_bks"]
+    test: ${.val}
+    log_on_step: True
+
+  batch_size: 512
+  # note: batch size is a list corresponding to num of datasets
+  val_batch_size: ${model.batch_size}
+  test_batch_size: ${model.batch_size}
+  train_data_size: 200_000
+  # note: data size is a list corresponding to num of datasets
+  val_data_size: 10_000
+  test_data_size: 1_000 # NOTE: unused if provided by env
+  optimizer_kwargs:
+    lr: 1e-4
+    weight_decay: 1e-6
+  lr_scheduler:
+    "MultiStepLR"
+  lr_scheduler_kwargs:
+    milestones: [ 270, 295 ]
+    gamma: 0.1

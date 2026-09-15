@@ -1,0 +1,11 @@
+experiment=main/unimp_recourse/20 model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64
+experiment=main/unimp_moe_recourse/20 model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64
+experiment=main/am_recourse/20 model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64
+
+experiment=main/unimp_recourse/50 model.batch_size=64 +trainer.accumulate_grad_batches=4
+experiment=main/unimp_moe_recourse/50 model.batch_size=64 +trainer.accumulate_grad_batches=4
+experiment=main/am_recourse/50 model.batch_size=64 +trainer.accumulate_grad_batches=4
+
+experiment=main/unimp_recourse/100 model.batch_size=64 +trainer.accumulate_grad_batches=4 trainer.precision="bf16-mixed" +model.num_augment=8
+experiment=main/unimp_moe_recourse/100 model.batch_size=64 +trainer.accumulate_grad_batches=4 trainer.precision="bf16-mixed" +model.num_augment=8
+experiment=main/am_recourse/100 model.batch_size=64 +trainer.accumulate_grad_batches=4 trainer.precision="bf16-mixed" +model.num_augment=8

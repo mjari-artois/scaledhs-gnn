@@ -1,0 +1,8 @@
+# Default array params (kept for backward compatibility).
+# Prefer grouped files in `configs/array_params/`.
+#
+# Examples:
+#   oarsub --array-param-file configs/array_params/main_unimp_50.txt train.oar
+#   oarsub --array-param-file configs/array_params/ablations.txt train.oar
+
+experiment=main/recourse model.batch_size=256 +trainer.accumulate_grad_batches=2 trainer.precision="bf16-mixed" +model.num_augment=64

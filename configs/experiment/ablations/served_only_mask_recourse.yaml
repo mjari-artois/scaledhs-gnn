@@ -1,0 +1,12 @@
+# @package _global_
+
+defaults:
+  - ablations/base.yaml
+  - /experiment/feature/recourse.yaml
+  - _self_
+
+logger:
+  wandb:
+    tags: ["unimp", "${env.name}", "ablations", "recourse"]
+    group: "${env.generator_params.num_loc}-${env.name}"
+    name: "unimp-${env.generator_params.num_loc}-served-only-mask-recourse"

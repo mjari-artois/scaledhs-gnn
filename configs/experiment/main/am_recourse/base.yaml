@@ -1,0 +1,20 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/am/base.yaml
+  - _self_
+
+env:
+  use_recourse_for_infeasible: true
+
+model:
+  metrics:
+    train: ["loss", "reward", "recourse_cost", "recourse_count", "recourse_rate"]
+    val: ["reward", "recourse_cost", "recourse_count", "recourse_rate"]
+    test: ["reward", "recourse_cost", "recourse_count", "recourse_rate"]
+
+logger:
+  wandb:
+    tags: ["am", "${env.name}", "recourse"]
+    group: "${env.generator_params.num_loc}-${env.name}"
+    name: "am-${env.generator_params.num_loc}-recourse"

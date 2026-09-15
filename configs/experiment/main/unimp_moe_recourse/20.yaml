@@ -1,0 +1,6 @@
+# @package _global_
+
+defaults:
+  - /experiment/main/unimp_moe_recourse/base.yaml
+  - /experiment/size/20.yaml
+  - _self_

@@ -1,0 +1,28 @@
+# @package _global_
+
+defaults:
+  - /experiment/shared/base_train_wandb.yaml
+  - override /env: pdptw.yaml
+  - override /model: gnn_unimp.yaml
+  - _self_
+
+model:
+  policy:
+    encoder:
+      env_name: pdptw
+      edge_idx_fn:
+        _target_: ai4co_gnn.models.encoder.pdptw_pair_augmented_knn_edge_idx_fn
+        _partial_: true
+      init_embedding:
+        _target_: ai4co_gnn.models.init.LBtoPDPTWPolarInitEmbedding
+        embed_dim: ${model.policy.embed_dim}
+    decoder:
+      context_embedding:
+        _target_: ai4co_gnn.models.context.LBtoPDPTWContext
+        embed_dim: ${model.policy.embed_dim}
+
+logger:
+  wandb:
+    tags: ["unimp", "${env.name}"]
+    group: "${env.generator_params.num_loc}-${env.name}"
+    name: "unimp-${env.name}-${env.generator_params.num_loc}-main"
