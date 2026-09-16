@@ -33,3 +33,5 @@ logs/
 .idea
 .DS_Store
 data
+outputs
+uniform_N500
