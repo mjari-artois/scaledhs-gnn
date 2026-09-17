@@ -1,0 +1,100 @@
+# @package _global_
+# Minimal V3 selector-training configuration.
+# Use a frozen-policy repair function in production; the bundled sequential
+# fallback is intended for smoke tests and local pipeline validation.
+
+defaults:
+  - /env: mtvrp
+  - /model: gnn_unimp_moe
+  - _self_
+
+seed: 7
+experiment_name: v3-colony-moe
+device: auto
+resume_checkpoint: null
+
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: outputs/colony/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S}
+
+paths:
+  output_dir: outputs/colony/${experiment_name}
+  checkpoint_dir: ${paths.output_dir}/checkpoints
+  log_dir: logs/colony/${experiment_name}
+
+data:
+  train_path: null
+  validation_path: null
+  test_path: uniform_N500/problems_test.npz
+  generate: true
+  variant: cvrp
+  train_size: 100000
+  validation_size: 10000
+  test_size: 40
+  num_workers: 0
+  pin_memory: true
+  persistent_workers: false
+  num_customers: 500
+  capacity: 1.0
+
+routing:
+  checkpoint_path: logs/train/runs/50-mtvrp/unimp_moe-50-main/checkpoints/epoch_299.ckpt
+  checkpoint_strict: true
+  num_starts: 1
+  phase: test
+  device: ${device}
+  use_sequential_fallback: false
+
+env:
+  generator_params:
+    num_loc: ${data.num_customers}
+    variant_preset: ${data.variant}
+
+search:
+  rounds: 8
+  n_ants: 2
+  max_local_customers: 50
+  candidate_pool_size: 32
+  evaporation: 0.05
+  pheromone_alpha: 1.0
+  exploration: 0.10
+
+selector:
+  input_features: 7
+  units: 64
+  depth: 3
+  graph_k: 8
+
+optimization:
+  learning_rate: 1.0e-4
+  entropy_weight: 0.01
+  baseline_momentum: 0.9
+  batch_size: 1
+
+trainer:
+  max_epochs: 300
+  accelerator: auto
+  devices: 1
+  precision: 32-true
+  deterministic: true
+  log_every_n_steps: 1
+  accumulate_grad_batches: 1
+  gradient_clip_val: 1.0
+  gradient_clip_algorithm: norm
+  check_val_every_n_epoch: 1
+  enable_progress_bar: true
+  enable_model_summary: true
+  enable_checkpointing: true
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
+  num_sanity_val_steps: 0
+
+wandb:
+  enabled: false
+  project: colony-cvrp
+  name: null
+  group: null
+  offline: true
+  save_dir: logs/wandb
