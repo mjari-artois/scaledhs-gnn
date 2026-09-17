@@ -23,3 +23,4 @@ Available groups:
 - `configs/array_params/pdptw_transfer.txt` — PDPTW recourse with weights transferred from MTVRP recourse checkpoints (requires `MTVRP_CKPT_{20,50,100}` env vars)
 - `configs/array_params/pdptw_adapter_transfer_20_50.txt` — PDPTW adapter transfer for sizes 20/50. Uses `lr=5e-5` so the small pickup-delivery adapters learn without aggressively changing transferred time-window/capacity behavior. The LR still follows the normal `MultiStepLR`: with default milestones `[270, 295]`, `5e-5 -> 5e-6 -> 5e-7`.
 - `configs/array_params/pdptw_all.txt` — both campaigns combined
+- `configs/array_params/colony_v3_100k.txt` — V3 learned colony selector with the frozen MOE local solver, 100K/10K in-memory CVRP data, 300 epochs, and WandB logging
