@@ -95,6 +95,10 @@ def main(cfg: DictConfig) -> None:
         group_size=cfg.group_size,
         num_starts=cfg.num_starts,
         device=device,
+        demand_key=cfg.demand_key,
+        max_vehicles=cfg.max_vehicles,
+        refinement_enabled=cfg.refinement.enabled,
+        max_candidates=cfg.refinement.max_candidates,
     )
 
     wandb_logger = None
@@ -117,6 +121,8 @@ def main(cfg: DictConfig) -> None:
                 "num_customers": cfg.num_customers,
                 "group_size": cfg.group_size,
                 "num_starts": cfg.num_starts,
+                "refinement_enabled": cfg.refinement.enabled,
+                "refinement_max_candidates": cfg.refinement.max_candidates,
                 "checkpoint_path": to_absolute_path(cfg.checkpoint_path),
                 "device": str(device),
             },
@@ -206,6 +212,8 @@ def main(cfg: DictConfig) -> None:
                 "data_path": data_path,
                 "dataset_format": cfg.dataset_format,
                 "group_size": cfg.group_size,
+                "refinement_enabled": cfg.refinement.enabled,
+                "refinement_max_candidates": cfg.refinement.max_candidates,
                 "mean_cost": sum(item["cost"] for item in saved_instances)
                 / len(saved_instances),
                 "num_instances": len(saved_instances),

@@ -53,6 +53,22 @@ def angular_partition(
 
     return local_indices
 
+
+def propose_adjacent_group_swaps(groups: Tensor) -> list[Tensor]:
+
+    candidates = []
+    for group_idx in range(groups.size(1) - 1):
+        candidate = groups.clone()
+
+        left_customer = candidate[:, group_idx, -1].clone()
+        right_customer = candidate[:, group_idx + 1, 1].clone()
+
+        candidate[:, group_idx, -1] = right_customer
+        candidate[:, group_idx + 1, 1] = left_customer
+        candidates.append(candidate)
+
+    return candidates
+
 def gather_local_coordinates(
         locs: Tensor,
         local_indices: Tensor
@@ -80,5 +96,4 @@ def gather_local_coordinates(
     )
 
     return local_locs
-
 

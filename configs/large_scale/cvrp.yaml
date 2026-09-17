@@ -23,6 +23,12 @@ device: cpu
 # Set to null when the CVRP does not enforce a fixed fleet size.
 max_vehicles: null
 
+# Compare the angular baseline with a bounded set of adjacent-group swaps.
+refinement:
+  enabled: true
+  # null evaluates all adjacent pairs; set an integer to cap extra GNN solves.
+  max_candidates: null
+
 # W&B evaluation logging. The project is named after this repository.
 wandb:
   enabled: true
