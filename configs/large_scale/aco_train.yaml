@@ -31,8 +31,8 @@ data:
   test_source: file
   train_path: null
   validation_path: null
-  test_path: data/cvrp/test_500.npz
-  dataset_format: rl4co_npz
+  test_path: uniform_N500/problems_test.npz
+  dataset_format: uniform_npz
   train_data_size: 1000  # overwritten by hardware.auto_configure
   validation_data_size: 64
   test_data_size: 40
