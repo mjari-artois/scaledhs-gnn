@@ -230,8 +230,8 @@ class ACODecompositionTrainer(pl.LightningModule):
     def training_step(self, batch: TensorDictBase, batch_idx: int):
         loss, mean_cost, best_cost = self._run_batch(batch, require_prob=True)
         batch_size = batch.batch_size[0]
-        self.log("train/loss", loss, on_step=True, on_epoch=True, batch_size=batch_size, sync_dist=True)
-        self.log("train/cost", mean_cost, on_step=True, on_epoch=True, batch_size=batch_size, sync_dist=True)
+        self.log("train/loss", loss, on_step=True, on_epoch=True, batch_size=batch_size, sync_dist=True, prog_bar=True)
+        self.log("train/cost", mean_cost, on_step=True, on_epoch=True, batch_size=batch_size, sync_dist=True, prog_bar=True)
         self.log("train/best_cost", best_cost, on_step=True, on_epoch=True, batch_size=batch_size, sync_dist=True)
         return loss
 
@@ -254,6 +254,7 @@ class ACODecompositionTrainer(pl.LightningModule):
                 batch_size=batch_size,
                 add_dataloader_idx=False,
                 sync_dist=True,
+                prog_bar=True,
             )
             self.log(
                 "test/uniform_mean_best_cost",
@@ -268,13 +269,13 @@ class ACODecompositionTrainer(pl.LightningModule):
 
         _, mean_cost, best_cost = self._run_batch(batch, require_prob=False)
         batch_size = batch.batch_size[0]
-        self.log("val/cost", mean_cost, on_step=False, on_epoch=True, batch_size=batch_size, sync_dist=True)
-        self.log("val/best_cost", best_cost, on_step=False, on_epoch=True, batch_size=batch_size, sync_dist=True)
+        self.log("val/cost", mean_cost, on_step=False, on_epoch=True, batch_size=batch_size, sync_dist=True, prog_bar=True)
+        self.log("val/best_cost", best_cost, on_step=False, on_epoch=True, batch_size=batch_size, sync_dist=True, prog_bar=True)
 
     def test_step(self, batch: TensorDictBase, batch_idx: int):
         _, mean_cost, best_cost = self._run_batch(batch, require_prob=False)
         batch_size = batch.batch_size[0]
-        self.log("test/uniform_mean_cost", mean_cost, on_step=False, on_epoch=True, batch_size=batch_size, sync_dist=True)
+        self.log("test/uniform_mean_cost", mean_cost, on_step=False, on_epoch=True, batch_size=batch_size, sync_dist=True, prog_bar=True)
         self.log("test/uniform_mean_best_cost", best_cost, on_step=False, on_epoch=True, batch_size=batch_size, sync_dist=True)
 
     def _run_batch(self, batch: TensorDictBase, require_prob: bool):
