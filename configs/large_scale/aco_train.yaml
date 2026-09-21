@@ -8,17 +8,17 @@ seed: 1234
 smoke_test: false
 
 # These values are derived at launch from torch.cuda.device_count().
-# A CVRP-500 instance remains one batch item per GPU because its GNN graph is
-# dense. The launcher scales the global training set, ACO ants, DDP settings,
+# CVRP-500 uses a small per-GPU batch because its GNN graph is dense. The
+# launcher scales the global training set, ACO ants, DDP settings,
 # BF16 precision, and gradient accumulation automatically.
 hardware:
   auto_configure: true
-  per_device_batch_size: 1
+  per_device_batch_size: 2
   target_effective_batch_size: 16
-  train_instances_per_device: 5000
-  ants_per_device: 4
+  train_data_size: 1000
+  ants_per_device: 3
   min_ants: 8
-  max_ants: 16
+  max_ants: 12
   num_workers_per_device: 4
   matmul_precision: high
 

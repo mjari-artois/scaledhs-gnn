@@ -79,7 +79,7 @@ def configure_hardware(cfg: DictConfig) -> int:
         cfg.trainer.accumulate_grad_batches = accumulate_grad_batches
         cfg.data.batch_size = per_device_batch
         cfg.data.num_workers = cfg.hardware.num_workers_per_device
-        cfg.data.train_data_size = cfg.hardware.train_instances_per_device * devices
+        cfg.data.train_data_size = cfg.hardware.train_data_size
         cfg.aco.n_ants = n_ants
 
     return devices
