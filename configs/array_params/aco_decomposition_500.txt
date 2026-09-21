@@ -1,0 +1,1 @@
+seed=1234 trainer.max_epochs=100 hardware.auto_configure=true data.validation_data_size=64 data.test_data_size=40 aco.aco_iterations=1 aco.test_every_n_epochs=5 heuristic_net.depth=12 heuristic_net.units=64 wandb.enabled=true wandb.name=aco-decomposition-cvrp500-auto-hardware

@@ -1,0 +1,116 @@
+# @package _global_
+
+defaults:
+  - /model: gnn_unimp_moe.yaml
+  - _self_
+
+seed: 1234
+smoke_test: false
+
+# These values are derived at launch from torch.cuda.device_count().
+# A CVRP-500 instance remains one batch item per GPU because its GNN graph is
+# dense. The launcher scales the global training set, ACO ants, DDP settings,
+# BF16 precision, and gradient accumulation automatically.
+hardware:
+  auto_configure: true
+  per_device_batch_size: 1
+  target_effective_batch_size: 16
+  train_instances_per_device: 5000
+  ants_per_device: 4
+  min_ants: 8
+  max_ants: 16
+  num_workers_per_device: 4
+  matmul_precision: high
+
+# Match AI4CO training: create fresh CVRP instances from the environment for
+# both training and validation. Use source=file only for a separate fixed-data
+# evaluation run; uniform-500 data is not used for fitting this heuristic.
+data:
+  train_source: generated
+  validation_source: generated
+  test_source: file
+  train_path: null
+  validation_path: null
+  test_path: data/cvrp/test_500.npz
+  dataset_format: rl4co_npz
+  train_data_size: 1000  # overwritten by hardware.auto_configure
+  validation_data_size: 64
+  test_data_size: 40
+  batch_size: 1  # overwritten by hardware.auto_configure
+  num_workers: 0  # overwritten by hardware.auto_configure
+
+# Fixed <=50 customer black-box solver.
+solver:
+  checkpoint_path: logs/train/runs/50-mtvrp/unimp_moe-50-main/checkpoints/epoch_299.ckpt
+  checkpoint_strict: true
+
+# The local solver environment. It receives dynamically sized ACO groups.
+env:
+  _target_: ai4co_gnn.env.mtvrp.MTVRPEnv
+  name: mtvrp
+  check_solution: false
+  load_solutions: false
+  generator_params:
+    num_loc: 500
+    variant_preset: cvrp
+  val_file: null
+
+# Input nodes are x/y customer and depot coordinates. Edge attributes are
+# Euclidean distances built by ACODecompositionTrainer.
+heuristic_net:
+  _target_: ai4co_gnn.large_scale.aco.net.DecompositionHeuristicNet
+  depth: 12
+  node_features: 2
+  edge_features: 1
+  units: 32
+  act_fn: silu
+  agg_fn: mean
+
+# Parameters of ACODecompositionTrainer and its DecompositionACO instances.
+aco:
+  n_ants: 8  # overwritten by hardware.auto_configure
+  max_subproblem_size: 50
+  aco_iterations: 1
+  solver_num_starts: 1
+  decay: 0.9
+  alpha: 1.0
+  beta: 1.0
+  close_weight: 0.1
+  demand_key: demand_linehaul
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-6
+  infeasible_penalty: 1.0e6
+  test_every_n_epochs: 5
+
+trainer:
+  _target_: lightning.pytorch.Trainer
+  default_root_dir: logs/large_scale/aco_train
+  accelerator: auto  # overwritten by hardware.auto_configure
+  devices: 1  # overwritten by hardware.auto_configure
+  precision: "32"  # overwritten by hardware.auto_configure
+  max_epochs: 100
+  gradient_clip_val: 1.0
+  check_val_every_n_epoch: 1
+  log_every_n_steps: 1
+  enable_checkpointing: true
+  callbacks:
+    - _target_: lightning.pytorch.callbacks.ModelCheckpoint
+      monitor: val/best_cost
+      mode: min
+      save_top_k: 1
+      save_last: true
+      filename: "epoch_{epoch:03d}-cost_{val/best_cost:.4f}"
+  logger: false
+
+wandb:
+  enabled: true
+  project: scaledhs-gnn
+  name: aco-decomposition-cvrp-500
+  group: large-scale-aco-decomposition
+  tags: [cvrp, aco, decomposition, reinforce]
+  save_dir: logs/wandb
+  offline: false
+
+hydra:
+  job:
+    chdir: false
