@@ -171,9 +171,9 @@ def main(cfg: DictConfig):
                 offline=cfg.wandb.offline,
                 log_model=False,
             )
-            logger.experiment.config.update(
+            # Lightning logs hyperparameters only on rank zero under DDP.
+            logger.log_hyperparams(
                 OmegaConf.to_container(cfg, resolve=True),
-                allow_val_change=True,
             )
         else:
             logger = False
